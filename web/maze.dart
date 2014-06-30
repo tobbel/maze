@@ -68,15 +68,11 @@ class Maze {
     edges = new List<int>.generate(cellWidth * cellHeight, (int index) => -1);
     maze = new MinHeap(compareNodes);
     int start = (cellHeight - 1) * cellWidth;
-    print('start: $start');
     edges[start] = 0;
-    print('cells[start]: ${edges[start]}');
     fillCell(start);
     
-    print('pushing');
     maze.push(new Node(start, N, rand.nextDouble()));
     maze.push(new Node(start, E, rand.nextDouble()));
-    print('done pushing');
   }
   bool done = false;
   void update(double dt) {
@@ -93,8 +89,18 @@ class Maze {
   bool exploreFrontier() {
     Node edge = maze.pop();
     if (edge == null) {
-      print('edge null');
       return true;
+    }
+
+    print('Current Maze:');
+    for (int y = 0; y < 11; y++) {
+      String out = '[';
+      for (int x = 0; x < 11; x++) {
+        final int index = y * 11 + x;
+        out += '${edges[index]},\t';
+      }
+      out += ']';
+      print(out);
     }
     
     int i0 = edge.index;
@@ -103,8 +109,6 @@ class Maze {
     int x0 = i0 % cellWidth;
     int y0 = i0 ~/ cellWidth;
     int x1, y1, d1;
-    print ('i1: $i1');
-    print ('cells[i1] : ${edges[i1]}');
     
     //bool open = edges[i1] == null;
     bool open = edges[i1] == -1;
@@ -147,8 +151,6 @@ class Maze {
       
       context.fillStyle = 'magenta';
       
-      print('y1: $y1');
-      print('x1: $x1');
       if (y1 > 0 && edges[i1 - cellWidth] == -1) {
         fillSouth(i1 - cellWidth);
         maze.push(new Node(i1, N, rand.nextDouble()));
@@ -195,7 +197,6 @@ class MinHeap {
   int push(Node value) {
     array.add(value);
     up(array[size], size);
-    print('pushing a node, size $size');
     size++;
     return size;
   }
@@ -205,7 +206,6 @@ class MinHeap {
     Node removed = array[0];
     Node value;
     size--;
-    print('popped a node, size $size');
     if (size > 0) {
       value = array[size];
       array[0] = value;

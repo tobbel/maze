@@ -18,7 +18,7 @@ class Maze {
   
   int cellWidth;
   int cellHeight;
-  List<int> cells;      
+  List<int> edges;      
 
   CanvasElement canvas;
   CanvasRenderingContext2D context;
@@ -63,13 +63,14 @@ class Maze {
     final int tx = (WIDTH - cellWidth * CELL_SIZE - (cellHeight + 1) * CELL_SPACING) ~/ 2;
     final int ty = (HEIGHT - cellHeight * CELL_SIZE - (cellHeight + 1) * CELL_SPACING) ~/ 2;
     context.translate(tx, ty);
-    context.fillStyle = "white";
-    cells = new List<int>(cellWidth * cellHeight);
+    context.fillStyle = 'white';
+    //edges = new List<int>(cellWidth * cellHeight);
+    edges = new List<int>.generate(cellWidth * cellHeight, (int index) => -1);
     maze = new MinHeap(compareNodes);
     int start = (cellHeight - 1) * cellWidth;
     print('start: $start');
-    cells[start] = 0;
-    print('cells[start]: ${cells[start]}');
+    edges[start] = 0;
+    print('cells[start]: ${edges[start]}');
     fillCell(start);
     
     print('pushing');
@@ -103,9 +104,10 @@ class Maze {
     int y0 = i0 ~/ cellWidth;
     int x1, y1, d1;
     print ('i1: $i1');
-    print ('cells[i1] : ${cells[i1]}');
+    print ('cells[i1] : ${edges[i1]}');
     
-    bool open = cells[i1] == null;
+    //bool open = edges[i1] == null;
+    bool open = edges[i1] == -1;
     
     context.fillStyle = open ? 'white' : 'black';
     if (d0 == N) {
@@ -132,34 +134,34 @@ class Maze {
     
     if (open) {
       fillCell(i1);
-      if (cells[i0] != null) {
-        cells[i0] |= d0;        
+      if (edges[i0] != -1) {
+        edges[i0] |= d0;        
       } else {
-        cells[i0] = d0;
+        edges[i0] = d0;
       }
-      if (cells[i1] != null) {
-        cells[i1] |= d1;        
+      if (edges[i1] != -1) {
+        edges[i1] |= d1;        
       } else {
-        cells[i1] = d1;
+        edges[i1] = d1;
       }
       
       context.fillStyle = 'magenta';
       
       print('y1: $y1');
       print('x1: $x1');
-      if (y1 > 0 && cells[i1 - cellWidth] == null) {
+      if (y1 > 0 && edges[i1 - cellWidth] == -1) {
         fillSouth(i1 - cellWidth);
         maze.push(new Node(i1, N, rand.nextDouble()));
       }
-      if (y1 < cellHeight - 1 && cells[i1 + cellWidth] == null) {
+      if (y1 < cellHeight - 1 && edges[i1 + cellWidth] == -1) {
         fillSouth(i1);
         maze.push(new Node(i1, S, rand.nextDouble()));
       }
-      if (x1 > 0 && cells[i1 - 1] == null) {
+      if (x1 > 0 && edges[i1 - 1] == -1) {
         fillEast(i1 - 1);
         maze.push(new Node(i1, W, rand.nextDouble()));
       }
-      if (x1 < cellWidth - 1 && cells[i1 + 1] == null) {
+      if (x1 < cellWidth - 1 && edges[i1 + 1] == -1) {
         fillEast(i1);
         maze.push(new Node(i1, E, rand.nextDouble()));
       }

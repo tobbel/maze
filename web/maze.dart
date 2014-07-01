@@ -92,7 +92,7 @@ class Maze {
       return true;
     }
 
-    print('Current Maze:');
+    print('Current Edges:');
     for (int y = 0; y < 11; y++) {
       String out = '[';
       for (int x = 0; x < 11; x++) {
@@ -102,6 +102,9 @@ class Maze {
       out += ']';
       print(out);
     }
+    
+    print('Current Maze:');
+    print(maze.print());
     
     int i0 = edge.index;
     int d0 = edge.direction;
@@ -199,6 +202,16 @@ class MinHeap {
     up(array[size], size);
     size++;
     return size;
+  }
+  
+  String print() {
+    String out = '';
+    out += ('Size: ' + size.toString() + '\n');
+    out += ('Length: ' + array.length.toString() + '\n');
+    for (int i = 0; i < array.length; i++) {
+      out += ('[Index: ' + array[i].index.toString() + ', ' + 'Direction: ' + array[i].direction.toString() + ', ' + 'Weight: ' + array[i].weight.toString() + ']\n');
+    }
+    return out;
   }
   
   Node pop() {

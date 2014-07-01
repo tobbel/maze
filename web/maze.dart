@@ -192,14 +192,26 @@ class MinHeap {
   int size = 0;
   var compare;
   List<Node> array = new List<Node>();
-  
+  //Map<int, Node> array = new Map<int, Node>();
   bool empty() {
     return size == 0;
   }
    
   int push(Node value) {
-    array.add(value);
-    up(array[size], size);
+
+    bool contains = false;
+    array.forEach((f) {
+      if (f.index == value.index) contains = true;
+    });
+    
+    if (contains) {
+      array[size] = value;
+    }
+    else array.add(value);
+    
+    // Old
+    //array[size] = value;
+    //up(array[size], size);
     size++;
     return size;
   }
@@ -209,7 +221,9 @@ class MinHeap {
     out += ('Size: ' + size.toString() + '\n');
     out += ('Length: ' + array.length.toString() + '\n');
     for (int i = 0; i < array.length; i++) {
-      out += ('[Index: ' + array[i].index.toString() + ', ' + 'Direction: ' + array[i].direction.toString() + ', ' + 'Weight: ' + array[i].weight.toString() + ']\n');
+      out += ('[Index: ' + array[i].index.toString() + ', ' + 
+              'Direction: ' + array[i].direction.toString() + ', ' + 
+              'Weight: ' + array[i].weight.toString() + ']\n');
     }
     return out;
   }

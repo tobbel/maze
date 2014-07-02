@@ -5,16 +5,16 @@ class Maze {
   static const double UPDATE_TIME = 0.25;
   double updateTimer = UPDATE_TIME;
   
-  static const int WIDTH = 96;
-  static const int HEIGHT = 96;
+  static const int WIDTH = 192;
+  static const int HEIGHT = 192;
 
   static const int N = 1 << 0;
   static const int S = 1 << 1;
   static const int W = 1 << 2;
   static const int E = 1 << 3;
   
-  static const int CELL_SIZE = 4;
-  static const int CELL_SPACING = 4;
+  static const int CELL_SIZE = 8;
+  static const int CELL_SPACING = 8;
   
   int cellWidth;
   int cellHeight;
@@ -67,11 +67,11 @@ class Maze {
     //edges = new List<int>(cellWidth * cellHeight);
     edges = new List<int>.generate(cellWidth * cellHeight, (int index) => -1);
     maze = new MinHeap(compareNodes);
-    int start = (cellHeight - 1) * cellWidth;
+    int start = 0;//(cellHeight - 1) * cellWidth;
     edges[start] = 0;
     fillCell(start);
     
-    maze.push(new Node(start, N, rand.nextDouble()));
+    maze.push(new Node(start, S, rand.nextDouble()));
     maze.push(new Node(start, E, rand.nextDouble()));
   }
   bool done = false;
@@ -82,8 +82,12 @@ class Maze {
       if (updateTimer <= 0.0) {
         updateTimer = UPDATE_TIME;
         done = exploreFrontier();
+        
+        if (done) {
+          print('done');
+        }
       }
-    }
+    }    
   }
   
   bool exploreFrontier() {

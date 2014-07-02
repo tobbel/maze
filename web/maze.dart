@@ -2,7 +2,7 @@ part of maze;
 
 // This should be called prim's
 class Maze {
-  static const double UPDATE_TIME = 0.25;
+  static const double UPDATE_TIME = 0.1;
   double updateTimer = UPDATE_TIME;
   
   static const int WIDTH = 192;

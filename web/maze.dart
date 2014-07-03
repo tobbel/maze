@@ -67,11 +67,11 @@ class Maze {
     //edges = new List<int>(cellWidth * cellHeight);
     edges = new List<int>.generate(cellWidth * cellHeight, (int index) => -1);
     maze = new MinHeap(compareNodes);
-    int start = 0;//(cellHeight - 1) * cellWidth;
+    int start = (cellHeight - 1) * cellWidth;
     edges[start] = 0;
     fillCell(start);
     
-    maze.push(new Node(start, S, rand.nextDouble()));
+    maze.push(new Node(start, N, rand.nextDouble()));
     maze.push(new Node(start, E, rand.nextDouble()));
   }
   bool done = false;
@@ -126,21 +126,25 @@ class Maze {
       x1 = x0;
       y1 = y0 - 1;
       d1 = S;
+      print('added south');
     } else if (d0 == S) {
       fillSouth(i0);
       x1 = x0;
       y1 = y0 + 1;
       d1 = N;
+      print('added north');
     } else if (d0 == W) {
       fillEast(i1);
       x1 = x0 - 1;
       y1 = y0;
       d1 = E;
+      print('added east');
     } else {
       fillEast(i0);
       x1 = x0 + 1;
       y1 = y0;
       d1 = W;
+      print('added west');
     }
     
     if (open) {
@@ -201,21 +205,10 @@ class MinHeap {
     return size == 0;
   }
    
-  int push(Node value) {
-
-    bool contains = false;
-    array.forEach((f) {
-      if (f.index == value.index) contains = true;
-    });
-    
-    if (contains) {
-      array[size] = value;
-    }
-    else array.add(value);
-    
-    // Old
-    //array[size] = value;
-    //up(array[size], size);
+  int push(Node value) { 
+    array.add(value);
+    array[size] = value;
+    up(array[size], size);
     size++;
     return size;
   }

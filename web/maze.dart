@@ -2,7 +2,7 @@ part of maze;
 
 // This should be called prim's
 class Maze {
-  static const double UPDATE_TIME = 0.1;
+  static const double UPDATE_TIME = 0.01;
   double updateTimer = UPDATE_TIME;
   
   static const int WIDTH = 192;
@@ -28,6 +28,8 @@ class Maze {
   Maze() {
     canvas = document.body.append(new CanvasElement(width: WIDTH, height: HEIGHT));
     context = canvas.context2D;
+    context.fillStyle = 'black';
+    context.fillRect(0, 0, context.canvas.width, context.canvas.height);
   }
   
   void fillCell(int index) {

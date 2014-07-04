@@ -2,19 +2,19 @@ part of maze;
 
 // This should be called prim's
 class Maze {
-  static const double UPDATE_TIME = 0.01;
+  static const double UPDATE_TIME = 0.005;
   double updateTimer = UPDATE_TIME;
   
-  static const int WIDTH = 192;
-  static const int HEIGHT = 192;
+  static const int WIDTH = 960;
+  static const int HEIGHT = 960;
 
   static const int N = 1 << 0;
   static const int S = 1 << 1;
   static const int W = 1 << 2;
   static const int E = 1 << 3;
   
-  static const int CELL_SIZE = 8;
-  static const int CELL_SPACING = 8;
+  static const int CELL_SIZE = 4;
+  static const int CELL_SPACING = 4;
   
   int cellWidth;
   int cellHeight;
@@ -98,7 +98,7 @@ class Maze {
       return true;
     }
 
-    print('Current Edges:');
+    //print('Current Edges:');
     for (int y = 0; y < 11; y++) {
       String out = '[';
       for (int x = 0; x < 11; x++) {
@@ -106,11 +106,11 @@ class Maze {
         out += '${edges[index]},\t';
       }
       out += ']';
-      print(out);
+      //print(out);
     }
     
-    print('Current Maze:');
-    print(maze.print());
+    //print('Current Maze:');
+    //print(maze.print());
     
     int i0 = edge.index;
     int d0 = edge.direction;
@@ -128,25 +128,25 @@ class Maze {
       x1 = x0;
       y1 = y0 - 1;
       d1 = S;
-      print('added south');
+      //print('added south');
     } else if (d0 == S) {
       fillSouth(i0);
       x1 = x0;
       y1 = y0 + 1;
       d1 = N;
-      print('added north');
+      //print('added north');
     } else if (d0 == W) {
       fillEast(i1);
       x1 = x0 - 1;
       y1 = y0;
       d1 = E;
-      print('added east');
+      //print('added east');
     } else {
       fillEast(i0);
       x1 = x0 + 1;
       y1 = y0;
       d1 = W;
-      print('added west');
+      //print('added west');
     }
     
     if (open) {
@@ -215,17 +215,17 @@ class MinHeap {
     return size;
   }
   
-  String print() {
-    String out = '';
-    out += ('Size: ' + size.toString() + '\n');
-    out += ('Length: ' + array.length.toString() + '\n');
-    for (int i = 0; i < array.length; i++) {
-      out += ('[Index: ' + array[i].index.toString() + ', ' + 
-              'Direction: ' + array[i].direction.toString() + ', ' + 
-              'Weight: ' + array[i].weight.toString() + ']\n');
-    }
-    return out;
-  }
+//  String print() {
+//    String out = '';
+//    out += ('Size: ' + size.toString() + '\n');
+//    out += ('Length: ' + array.length.toString() + '\n');
+//    for (int i = 0; i < array.length; i++) {
+//      out += ('[Index: ' + array[i].index.toString() + ', ' + 
+//              'Direction: ' + array[i].direction.toString() + ', ' + 
+//              'Weight: ' + array[i].weight.toString() + ']\n');
+//    }
+//    return out;
+//  }
   
   Node pop() {
     if (size <= 0) return null;

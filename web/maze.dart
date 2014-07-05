@@ -66,7 +66,6 @@ class Maze {
     final int ty = (HEIGHT - cellHeight * CELL_SIZE - (cellHeight + 1) * CELL_SPACING) ~/ 2;
     context.translate(tx, ty);
     context.fillStyle = 'white';
-    //edges = new List<int>(cellWidth * cellHeight);
     edges = new List<int>.generate(cellWidth * cellHeight, (int index) => -1);
     maze = new MinHeap(compareNodes);
     int start = (cellHeight - 1) * cellWidth;
@@ -97,20 +96,6 @@ class Maze {
     if (edge == null) {
       return true;
     }
-
-    //print('Current Edges:');
-    for (int y = 0; y < 11; y++) {
-      String out = '[';
-      for (int x = 0; x < 11; x++) {
-        final int index = y * 11 + x;
-        out += '${edges[index]},\t';
-      }
-      out += ']';
-      //print(out);
-    }
-    
-    //print('Current Maze:');
-    //print(maze.print());
     
     int i0 = edge.index;
     int d0 = edge.direction;
@@ -119,7 +104,6 @@ class Maze {
     int y0 = i0 ~/ cellWidth;
     int x1, y1, d1;
     
-    //bool open = edges[i1] == null;
     bool open = edges[i1] == -1;
     
     context.fillStyle = open ? 'white' : 'black';
@@ -128,25 +112,21 @@ class Maze {
       x1 = x0;
       y1 = y0 - 1;
       d1 = S;
-      //print('added south');
     } else if (d0 == S) {
       fillSouth(i0);
       x1 = x0;
       y1 = y0 + 1;
       d1 = N;
-      //print('added north');
     } else if (d0 == W) {
       fillEast(i1);
       x1 = x0 - 1;
       y1 = y0;
       d1 = E;
-      //print('added east');
     } else {
       fillEast(i0);
       x1 = x0 + 1;
       y1 = y0;
       d1 = W;
-      //print('added west');
     }
     
     if (open) {
@@ -202,7 +182,6 @@ class MinHeap {
   int size = 0;
   var compare;
   List<Node> array = new List<Node>();
-  //Map<int, Node> array = new Map<int, Node>();
   bool empty() {
     return size == 0;
   }
@@ -214,18 +193,6 @@ class MinHeap {
     size++;
     return size;
   }
-  
-//  String print() {
-//    String out = '';
-//    out += ('Size: ' + size.toString() + '\n');
-//    out += ('Length: ' + array.length.toString() + '\n');
-//    for (int i = 0; i < array.length; i++) {
-//      out += ('[Index: ' + array[i].index.toString() + ', ' + 
-//              'Direction: ' + array[i].direction.toString() + ', ' + 
-//              'Weight: ' + array[i].weight.toString() + ']\n');
-//    }
-//    return out;
-//  }
   
   Node pop() {
     if (size <= 0) return null;
